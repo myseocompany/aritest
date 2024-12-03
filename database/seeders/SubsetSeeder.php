@@ -9,29 +9,23 @@ use App\Models\Subset;
 
 class SubsetSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
-        // Agregar registros de prueba
+        // Crear subsets de prueba
         Subset::create([
-            'name' => 'Tema de prueba 1',
+            'name' => 'Matemáticas Básicas',
         ]);
+
         Subset::create([
-            'name' => 'Tema de prueba 2',
+            'name' => 'Geometría',
         ]);
+
         Subset::create([
-            'name' => 'Tema de prueba 3',
+            'name' => 'Física',
         ]);
+
         Subset::create([
-            'name' => 'Tema de prueba 4',
-        ]);
-        Subset::create([
-            'name' => 'Tema de prueba 5',
+            'name' => 'Química',
         ]);
     }
 }
-
