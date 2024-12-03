@@ -4,24 +4,19 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateQuestionSubsetTable extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
         Schema::create('question_subset', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->foreignId('question_id')->constrained('questions')->onDelete('cascade');
+            $table->foreignId('subset_id')->constrained('subsets')->onDelete('cascade');
+            $table->primary(['question_id', 'subset_id']);
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('question_subset');
     }
-};
+}

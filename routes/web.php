@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SubsetController;
+use App\Http\Controllers\TestController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -18,3 +20,10 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+
+Route::get('/home', [SubsetController::class, 'index'])->name('home')->middleware('auth');
+Route::get('/', [SubsetController::class, 'index']);
+Route::get('/test/start', [TestController::class, 'start'])->name('start-test')->middleware('auth');
+Route::get('/', [SubsetController::class, 'index'])->middleware('auth')->name('home');
+
