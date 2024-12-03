@@ -24,6 +24,11 @@ require __DIR__.'/auth.php';
 
 Route::get('/home', [SubsetController::class, 'index'])->name('home')->middleware('auth');
 Route::get('/', [SubsetController::class, 'index']);
-Route::get('/test/start', [TestController::class, 'start'])->name('start-test')->middleware('auth');
 Route::get('/', [SubsetController::class, 'index'])->middleware('auth')->name('home');
+
+Route::get('/test/start', [TestController::class, 'start'])->name('test.start')->middleware('auth');
+Route::get('/test/submit', [TestController::class, 'submit'])->name('test.submit');
+
+Route::get('/test/result', [TestController::class, 'result'])->name('test.result');
+
 
