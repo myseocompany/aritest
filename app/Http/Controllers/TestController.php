@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Question;
 use App\Models\Answer;
 use App\Models\Subset;
+use App\Models\Exam;
+use Illuminate\Support\Facades\Auth; 
+
 
 
 class TestController extends Controller
@@ -15,6 +18,8 @@ class TestController extends Controller
     {
         
         // creo el examen
+        $exam = new Exam;
+        $exam->user_id = Auth::id();
         
         // Obtener el set de preguntas
         $subset_id = $request->subset;
