@@ -27,24 +27,25 @@
             </ul>
         </div>
 
-        <!-- Selección de Subset -->
-        <div class="mb-6">
-            <label for="subset" class="block text-xl font-medium text-gray-700">Selecciona un Tema</label>
-            <div class="mt-2">
-                <select id="subset" name="subset" class="block w-full p-3 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                    @foreach($subsets as $subset)
-                        <option value="{{ $subset->id }}">{{ $subset->name }}</option>
-                    @endforeach
-                </select>
+        <form method="POST" action="{{ route('test.start') }}"> 
+            @csrf 
+            <div class="mb-6">
+                <label for="subset" class="block text-xl font-medium text-gray-700">Selecciona un Tema</label>
+                <div class="mt-2">
+                    <select id="subset" name="subset" class="block w-full p-3 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        @foreach($subsets as $subset)
+                            <option value="{{ $subset->id }}">{{ $subset->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
-        </div>
-
-        <!-- Botón de Iniciar Test -->
-        <div class="text-center">
-            <a href="{{ route('test.start') }}" class="inline-block px-8 py-3 bg-blue-600 text-white font-semibold text-lg rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-200">
-                Iniciar Test
-            </a>
-        </div>
+        
+            <div class="text-center">
+                <button type="submit" class="inline-block px-8 py-3 bg-blue-600 text-white font-semibold text-lg rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-200">
+                    Iniciar Test
+                </button> 
+            </div>
+        </form>
 
     </div>
 </div>

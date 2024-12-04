@@ -5,6 +5,17 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SubsetController;
 use App\Http\Controllers\TestController;
 
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -22,14 +33,15 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 
-Route::get('/home', [SubsetController::class, 'index'])->name('home')->middleware('auth');
-Route::get('/', [SubsetController::class, 'index']);
-Route::get('/', [SubsetController::class, 'index'])->middleware('auth')->name('home');
+// Ruta para la página de inicio con la lista de subsets
+Route::get('/home', [SubsetController::class, 'index'])->name('home')->middleware('auth'); 
 
-Route::get('/test/start', [TestController::class, 'start'])->name('test.start')->middleware('auth');
+// Ruta para iniciar un examen (POST)
+Route::post('/test/start', [TestController::class, 'start'])->name('test.start'); 
 
-Route::get('/test/result', [TestController::class, 'result'])->name('test.result');
-
-// Ruta para manejar el envío de respuestas (procesar las respuestas y mostrar el resultado)
-Route::post('/test/save_answer', [TestController::class, 'saveAnswer'])->name('test.save_answer');
-
+// Agrupa las rutas del examen que requieren autenticación
+Route::middleware(['auth'])->group(function () {
+    Route::get('/test/{exam}/question', [TestController::class, 'showQuestion'])->name('test.question');
+    Route::post('/test/{exam}/answer', [TestController::class, 'saveAnswer'])->name('test.saveAnswer');
+    Route::get('/test/{exam}/results', [TestController::class, 'showResults'])->name('test.results');
+});

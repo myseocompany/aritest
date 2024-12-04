@@ -2,107 +2,79 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Question;
-use App\Models\Answer;
-use App\Models\Subset;
 use App\Models\Exam;
-use Illuminate\Support\Facades\Auth; 
-
-
+use App\Models\Subset;
+use App\Services\ExamService;
+use Illuminate\Http\Request;
 
 class TestController extends Controller
 {
-    // Método para mostrar la pregunta actual
-    public function start(Request $request)
+    protected $examService;
+
+    public function __construct(ExamService $examService)
     {
-        
-        // creo el examen
-        $exam = new Exam;
-        $exam->user_id = Auth::id();
-        
-        // Obtener el set de preguntas
-        $subset_id = $request->subset;
-        if(isset($subset_id) && ($subset_id!=""))
-            $subset = Subset::find($subset_id);
-        
-        // Obtener todas las preguntas
-        $questions = $subset->questions;
+        $this->examService = $examService; 
+    }
 
-        // Obtener el índice de la pregunta actual
-        $currentQuestionIndex = $request->get('question', 0);
+    public function start(Request $request) 
+    {
+        $request->validate([
+            'subset' => 'required|exists:subsets,id',
+        ]);
 
-        // Verificar si el índice es válido y no supera el total de preguntas
-        if ($currentQuestionIndex >= count($questions)) {
-            // Redirigir al submit si ya se respondieron todas las preguntas
-            return redirect()->route('test.submit');
+        $subset = Subset::findOrFail($request->subset);
+
+        // Crear un nuevo examen usando el ExamService
+        $exam = $this->examService->createExam($subset);
+
+        // Redirigir a la primera pregunta del examen
+        return redirect()->route('test.question', ['exam' => $exam]);
+    }
+
+    public function startExam(Subset $subset)
+    {
+        // Crear un nuevo examen
+        $exam = $this->examService->createExam($subset);
+
+        // Redirigir a la primera pregunta
+        return redirect()->route('test.question', ['exam' => $exam]);
+    }
+
+    public function showQuestion(Exam $exam)
+    {
+        // Obtener la siguiente pregunta
+        $question = $this->examService->getNextQuestion($exam);
+
+        // Si no hay más preguntas, mostrar los resultados
+        if (!$question) {
+            return redirect()->route('test.results', ['exam' => $exam]);
         }
+
+        return view('test.question', compact('exam', 'question'));
+    }
+
+    public function saveAnswer(Request $request, Exam $exam)
+    {
+        // Validar la respuesta del usuario
+        $request->validate([
+            'answer_id' => 'required|exists:answers,id',
+        ]);
 
         // Obtener la pregunta actual
-        $question = $questions[$currentQuestionIndex];
+        $question = $this->examService->getNextQuestion($exam);
 
-        return view('test.start', [
-            'question' => $question,
-            'currentQuestionIndex' => $currentQuestionIndex,
-            'totalQuestions' => count($questions),
-        ]);
+        // Guardar la respuesta
+        $this->examService->saveAnswer($exam, $question, $request->answer_id);
+
+        // Redirigir a la siguiente pregunta
+        return redirect()->route('test.question', ['exam' => $exam]);
     }
 
-    // Método para procesar las respuestas y mostrar el resultado
-    public function saveAnswer(Request $request)
+    public function showResults(Exam $exam)
     {
-        // Obtener todas las preguntas
-        $questions = Question::all();
-        $totalQuestions = count($questions);
-        $correctAnswers = 0;
+        // Obtener los resultados del examen
+        $results = $this->examService->getExamResults($exam);
 
-        // Obtener las respuestas enviadas desde el formulario
-        $answers = $request->input('answers');
-
-        // Verificar si 'answers' está presente y es un array
-        if (!$answers || !is_array($answers)) {
-            // Si no hay respuestas válidas, redirigir con un mensaje de error
-            return redirect()->route('test.start')->with('error', 'Por favor, responde todas las preguntas.');
-        }
-
-
-        // Iterar sobre las respuestas enviadas
-        foreach ($answers as $questionId => $answerId) {
-            // Buscar la respuesta en la base de datos
-            $answer = Answer::find($answerId);
-
-            // Si la respuesta es correcta, sumamos el contador
-            if ($answer && $answer->is_correct) {
-                $correctAnswers++;
-            }
-        }
-
-
-        // Calcular el puntaje
-        $score = ($correctAnswers / $totalQuestions) * 100;
-
-        // Guardar el puntaje en la sesión
-        session(['score' => $score]);
-        // Verificar si hay más preguntas
-        $currentQuestionIndex = $request->input('question', 0);
-
-        if ($currentQuestionIndex + 1 < $totalQuestions) {
-            // Si hay más preguntas, redirigir a la siguiente pregunta
-            return redirect()->route('test.start', ['question' => $currentQuestionIndex + 1]);
-
-        } else {
-            // Si ya no hay más preguntas, redirigir a los resultados
-            return redirect()->route('test.result');
-        }
-
-    }
-
-    // Método para mostrar los resultados del test
-    public function result()
-    {
-        // Recuperar el puntaje de la sesión
-        $score = session('score');
-
-        return view('test.result', compact('score'));
+        return view('test.results', compact('exam', 'results'));
     }
 }
