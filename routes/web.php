@@ -27,8 +27,9 @@ Route::get('/', [SubsetController::class, 'index']);
 Route::get('/', [SubsetController::class, 'index'])->middleware('auth')->name('home');
 
 Route::get('/test/start', [TestController::class, 'start'])->name('test.start')->middleware('auth');
-Route::get('/test/submit', [TestController::class, 'submit'])->name('test.submit');
 
 Route::get('/test/result', [TestController::class, 'result'])->name('test.result');
 
+// Ruta para manejar el envío de respuestas (procesar las respuestas y mostrar el resultado)
+Route::post('/test/submit', [TestController::class, 'submit'])->name('test.submit');
 

@@ -11,8 +11,10 @@
         </div>
 
         <!-- Mostrar la pregunta -->
-        <form action="{{ route('test.start') }}" method="GET">
+        <form action="{{ route('test.submit') }}" method="POST">
             @csrf
+            <input type="hidden" name="question" value="{{ $currentQuestionIndex }}">
+
             <div class="mb-6">
                 <p class="text-lg text-gray-700">{{ $question->question_text }}</p>
             </div>
@@ -20,22 +22,19 @@
             <div class="mb-6">
                 @foreach($question->answers as $answer)
                     <div class="flex items-center mb-4">
-                    <input type="radio" id="answer{{ $answer->id }}" name="answers[{{ $question->id }}][]" value="{{ $answer->id }}" class="form-radio" />
+                        <input type="radio" id="answer{{ $answer->id }}" name="answers[{{ $question->id }}]" value="{{ $answer->id }}" class="form-radio" />
                         <label for="answer{{ $answer->id }}" class="ml-2 text-gray-700">{{ $answer->answer_text }}</label>
                     </div>
                 @endforeach
             </div>
 
-            <!-- Botón para avanzar a la siguiente pregunta -->
-
+            <!-- Botón para enviar la respuesta y avanzar a la siguiente pregunta -->
+            <div class="mt-4">
+                <button type="submit" class="inline-block px-8 py-3 bg-green-600 text-white font-semibold text-lg rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 transition duration-200">
+                    Siguiente Pregunta
+                </button>
+            </div>
         </form>
-
-        <!-- Enviar respuestas y avanzar a la siguiente pregunta -->
-        <div class="mt-4">
-            <a href="{{ route('test.start', ['question' => $currentQuestionIndex + 1]) }}" class="inline-block px-8 py-3 bg-green-600 text-white font-semibold text-lg rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 transition duration-200">
-                Siguiente Pregunta
-            </a>
-        </div>
         
     </div>
 </div>
