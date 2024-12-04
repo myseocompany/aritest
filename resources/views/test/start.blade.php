@@ -11,7 +11,7 @@
         </div>
 
         <!-- Mostrar la pregunta -->
-        <form action="{{ route('test.submit') }}" method="POST">
+        <form action="{{ route('test.save_answer') }}" method="POST">
             @csrf
             <input type="hidden" name="question" value="{{ $currentQuestionIndex }}">
 

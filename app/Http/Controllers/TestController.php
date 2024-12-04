@@ -5,14 +5,24 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Question;
 use App\Models\Answer;
+use App\Models\Subset;
+
 
 class TestController extends Controller
 {
     // Método para mostrar la pregunta actual
     public function start(Request $request)
     {
+        
+        // creo el examen
+        
+        // Obtener el set de preguntas
+        $subset_id = $request->subset;
+        if(isset($subset_id) && ($subset_id!=""))
+            $subset = Subset::find($subset_id);
+        
         // Obtener todas las preguntas
-        $questions = Question::all();
+        $questions = $subset->questions;
 
         // Obtener el índice de la pregunta actual
         $currentQuestionIndex = $request->get('question', 0);
@@ -34,7 +44,7 @@ class TestController extends Controller
     }
 
     // Método para procesar las respuestas y mostrar el resultado
-    public function submit(Request $request)
+    public function saveAnswer(Request $request)
     {
         // Obtener todas las preguntas
         $questions = Question::all();
