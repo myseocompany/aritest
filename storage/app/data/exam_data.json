@@ -3,8 +3,8 @@
         "question": "Siona debe asegurarse de que sus anuncios obtengan una cantidad mínima de impresiones en la parte superior de la página. ¿Qué tipo de estrategia de pujas automáticas utiliza Siona?",
         "options": [
             "Maximizar clics",
-            "Coste por adquisición objetivo (tCPA)",
-            "Objetivo de retorno de la inversión publicitaria (tROAS)",
+            "Coste por adquisición objetivo (CPA)",
+            "Objetivo de retorno de la inversión publicitaria (ROAS)",
             "Cuota de impresiones objetivo"
         ],
         "correct_answer": "Cuota de impresiones objetivo",
@@ -67,7 +67,7 @@
     {
         "question": "Usted es un ejecutivo de marketing a quien se le ha encomendado planificar un presupuesto de publicidad en línea cada mes y decidió utilizar el Planificador de rendimiento de Google Ads para ayudarlo con sus esfuerzos. ¿Cuáles son las dos ventajas que le ofrece el Planificador de rendimiento?",
         "options": [
-            "Las previsiones de Performance Planner se basan en miles de millones de búsquedas en Google que se realizan cada semana",
+            "Las previsiones de Performance Planner, se basan en miles de millones de búsquedas en Google que se realizan cada semana",
             "Performance Planner puede ayudarle a localizar fondos de otros presupuestos operativos para que puedan asignarse al marketing",
             "Performance Planner se basa en el aprendizaje automático para fines de previsión",
             "Performance Planner se puede integrar con software de presupuestación adicional como QuickBooks"

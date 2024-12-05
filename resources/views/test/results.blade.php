@@ -32,11 +32,10 @@
                     <!-- Respuestas -->
                     <ul class="mt-3 space-y-2">
                         @foreach ($question->answers as $answer)
-                            <li 
-                                class="ml-4 p-2 rounded-lg 
-                                    {{ $answer->is_correct ? 'bg-green-100 text-green-800 font-bold' : '' }} 
-                                    {{ $examAnswers->contains('answer_id', $answer->id) && !$answer->is_correct ? 'bg-red-100 text-red-800' : '' }}
-                                    {{ !$examAnswers->contains('answer_id', $answer->id) && !$answer->is_correct ? 'text-gray-600' : '' }}">
+                            <li class="ml-4 p-2 rounded-lg 
+                                {{ $answer->is_correct ? 'bg-green-100 text-green-800 font-bold' : '' }} 
+                                {{ $examAnswers->contains('answer_id', $answer->id) && !$answer->is_correct ? 'bg-red-100 text-red-800' : '' }}
+                                {{ !$examAnswers->contains('answer_id', $answer->id) && !$answer->is_correct ? 'text-gray-600' : '' }}">
                                 - {{ $answer->answer_text }} 
                                 @if ($answer->is_correct)
                                     <span class="text-sm text-green-500">(Correcta)</span>

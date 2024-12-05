@@ -32,19 +32,47 @@ class ExamService
     {
         // Obtener las preguntas del subconjunto del examen
         $subsetQuestions = $exam->subset->questions;
-
+    
         // Obtener las preguntas ya respondidas en el examen
         $answeredQuestions = $exam->examAnswers->pluck('question_id');
-
+    
         // Obtener la siguiente pregunta que no ha sido respondida
         $nextQuestion = $subsetQuestions->whereNotIn('id', $answeredQuestions)->first();
-
-        return $nextQuestion;
+    
+        // Si ya no hay más preguntas, devolver null
+        return $nextQuestion ?: null;
     }
+    
 
     public function saveAnswer(Exam $exam, Question $question, $answerId)
-    {
-        // Verificar si la respuesta es correcta
+{
+    // Verificar si la respuesta es correcta
+    if (is_array($answerId)) {
+        // Si es una respuesta múltiple, iterar sobre las respuestas seleccionadas
+        $correctAnswers = 0;
+        foreach ($answerId as $id) {
+            $isCorrect = $question->answers()->where('id', $id)->where('is_correct', true)->exists();
+
+            // Guardar la respuesta del usuario
+            ExamAnswer::create([
+                'exam_id' => $exam->id,
+                'question_id' => $question->id,
+                'answer_id' => $id,
+                'is_correct' => $isCorrect,
+            ]);
+
+            // Contamos las respuestas correctas
+            if ($isCorrect) {
+                $correctAnswers++;
+            }
+        }
+
+        // Si todas las respuestas son correctas, actualizamos el número de respuestas correctas
+        if ($correctAnswers === count($answerId)) {
+            $exam->correct_answers++;
+        }
+    } else {
+        // Si es una respuesta única, proceder como antes
         $isCorrect = $question->answers()->where('id', $answerId)->where('is_correct', true)->exists();
 
         // Guardar la respuesta del usuario
@@ -55,14 +83,29 @@ class ExamService
             'is_correct' => $isCorrect,
         ]);
 
-        // Actualizar la puntuación y el número de respuestas correctas del examen
+        // Si la respuesta es correcta, aumentamos el contador de respuestas correctas
         if ($isCorrect) {
-            $exam->increment('correct_answers');
-            $exam->increment('score', 1 / $exam->total_questions * 100); // Asume que cada pregunta vale lo mismo
+            $exam->correct_answers++;
         }
-
-        $exam->save();
     }
+
+    // Actualizar la puntuación y el número de respuestas correctas del examen
+    $totalQuestions = $exam->total_questions;
+
+    // Actualizar el examen con las nuevas respuestas correctas y la puntuación
+    $exam->update([
+        'score' => $exam->correct_answers / $totalQuestions * 100,
+    ]);
+}
+
+public function saveMultipleAnswers(Exam $exam, Question $question, $answerIds)
+{
+    foreach ($answerIds as $answerId) {
+        $this->saveAnswer($exam, $question, $answerId);
+    }
+}
+
+
 
     public function getExamResults(Exam $exam)
     {

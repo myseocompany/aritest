@@ -44,31 +44,49 @@ class TestController extends Controller
     {
         // Obtener la siguiente pregunta
         $question = $this->examService->getNextQuestion($exam);
-
+    
         // Si no hay más preguntas, mostrar los resultados
         if (!$question) {
             return redirect()->route('test.results', ['exam' => $exam]);
         }
-
+    
         return view('test.question', compact('exam', 'question'));
     }
+    
 
     public function saveAnswer(Request $request, Exam $exam)
-    {
-        // Validar la respuesta del usuario
-        $request->validate([
-            'answer_id' => 'required|exists:answers,id',
-        ]);
+{
+    // Verificar si hay una pregunta actual
+    $question = $this->examService->getNextQuestion($exam);
 
-        // Obtener la pregunta actual
-        $question = $this->examService->getNextQuestion($exam);
-
-        // Guardar la respuesta
-        $this->examService->saveAnswer($exam, $question, $request->answer_id);
-
-        // Redirigir a la siguiente pregunta
-        return redirect()->route('test.question', ['exam' => $exam]);
+    if (!$question) {
+        // Si no hay más preguntas, redirigir a los resultados
+        return redirect()->route('test.results', ['exam' => $exam]);
     }
+
+    // Validar la respuesta del usuario dependiendo del tipo de pregunta
+    if ($question->question_type == 'multiple') {
+        // Para preguntas de selección múltiple, validamos que sean respuestas múltiples
+        $request->validate([
+            'answer_ids' => 'required|array',
+            'answer_ids.*' => 'exists:answers,id', // Validar que cada id de respuesta sea válido
+        ]);
+    } else {
+        // Para preguntas de selección única, validamos una sola respuesta
+        $request->validate([
+            'answer_id' => 'required|exists:answers,id', // Validar que la respuesta sea válida
+        ]);
+    }
+
+    // Guardar la respuesta
+    $this->examService->saveAnswer($exam, $question, $request->answer_id ?? $request->answer_ids);
+
+    // Redirigir a la siguiente pregunta
+    return redirect()->route('test.question', ['exam' => $exam]);
+}
+
+
+
 
     public function showResults(Exam $exam)
     {

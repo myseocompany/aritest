@@ -1,7 +1,5 @@
 <?php
 
-// database/seeders/ExamSeeder.php
-
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -30,57 +28,118 @@ class ExamSeeder extends Seeder
             return;
         }
 
-        // Subset global para todas las preguntas
-        $globalSubset = Subset::firstOrCreate([
+        // Crear el subset global
+        $globalSubset = $this->createGlobalSubset();
+
+        // Crear un nuevo subset para "Una pregunta de cada categoría"
+        $singleCategorySubset = $this->createSingleCategorySubset();
+
+        // Crear preguntas y asociarlas con el subset adecuado
+        $processedCategories = $this->processQuestions($data, $globalSubset, $singleCategorySubset);
+
+        $this->command->info('Datos cargados exitosamente desde el archivo JSON.');
+    }
+
+    // Crear el subset global
+    private function createGlobalSubset()
+    {
+        return Subset::firstOrCreate([
             'name' => 'Todas las preguntas',
             'description' => 'Un subset que contiene todas las preguntas cargadas.',
         ]);
+    }
 
+    // Crear el subset para "Una pregunta de cada categoría"
+    private function createSingleCategorySubset()
+    {
+        return Subset::create([
+            'name' => 'Una pregunta de cada categoría',
+            'description' => 'Este subset contiene una pregunta de cada categoría o tipo de pregunta.',
+        ]);
+    }
+
+    // Procesar preguntas desde el JSON y asociarlas con los subsets
+    private function processQuestions($data, $globalSubset, $singleCategorySubset)
+    {
+        $processedCategories = [];
+        
         foreach ($data as $item) {
-            // Crear o asociar el subset (utilizado como topic también)
-            $subset = Subset::firstOrCreate(
-                ['name' => $item['subset']],
-                ['description' => $item['subset'] . ' description']
-            );
+            // Crear o asociar el subset y topic
+            $subset = $this->createOrAssociateSubset($item);
+            $topic = $this->createOrAssociateTopic($subset);
 
-            // Crear o asociar el topic basado en el subset
-            $topic = Topic::firstOrCreate(
-                ['name' => $subset->name],
-                ['description' => $subset->description]
-            );
-
-            // Determinar el tipo de pregunta (multiple o single)
+            // Determinar el tipo de la pregunta
             $questionType = is_array($item['correct_answer']) ? 'multiple' : 'single';
 
-            // Crear una nueva pregunta
-            $question = Question::create([
-                'question_text' => $item['question'],
-                'question_type' => $questionType, // Usar el tipo determinado
-                'explanation' => $item['explanation'] ?? null, // Guardar la explicación si existe
-                'topic_id' => $topic->id, // Asociar el topic a la pregunta
-            ]);
+            // Crear la pregunta
+            $question = $this->createQuestion($item, $questionType, $topic);
 
-            // Asociar la pregunta al subset correspondiente
-            $question->subsets()->attach($subset->id);
+            // Asociar la pregunta con los subsets
+            $this->associateQuestionWithSubsets($question, $subset, $globalSubset);
 
-            // Asociar la pregunta al subset global
-            $question->subsets()->attach($globalSubset->id);
+            // Crear las respuestas para la pregunta
+            $this->createAnswers($item, $question);
 
-            // Crear las respuestas asociadas
-            foreach ($item['options'] as $option) {
-                // Si la respuesta es correcta, verificar si es parte de las respuestas correctas (en el caso de preguntas múltiples)
-                $isCorrect = is_array($item['correct_answer']) 
-                    ? in_array($option, $item['correct_answer']) // Para preguntas múltiples
-                    : $option === $item['correct_answer']; // Para preguntas simples
-
-                Answer::create([
-                    'question_id' => $question->id,
-                    'answer_text' => $option,
-                    'is_correct' => $isCorrect, // Marcar la respuesta correcta
-                ]);
+            // Asociar una pregunta de cada categoría al subset "Una pregunta de cada categoría"
+            if (!in_array($topic->id, $processedCategories)) {
+                $question->subsets()->attach($singleCategorySubset->id);
+                $processedCategories[] = $topic->id;
             }
         }
 
-        $this->command->info('Datos cargados exitosamente desde el archivo JSON.');
+        return $processedCategories;
+    }
+
+    // Crear o asociar un subset
+    private function createOrAssociateSubset($item)
+    {
+        return Subset::firstOrCreate(
+            ['name' => $item['subset']],
+            ['description' => $item['subset'] . ' description']
+        );
+    }
+
+    // Crear o asociar un topic
+    private function createOrAssociateTopic($subset)
+    {
+        return Topic::firstOrCreate(
+            ['name' => $subset->name],
+            ['description' => $subset->description]
+        );
+    }
+
+    // Crear la pregunta
+    private function createQuestion($item, $questionType, $topic)
+    {
+        return Question::create([
+            'question_text' => $item['question'],
+            'question_type' => $questionType,
+            'explanation' => $item['explanation'] ?? null,
+            'topic_id' => $topic->id,
+        ]);
+    }
+
+    // Asociar la pregunta con los subsets
+    private function associateQuestionWithSubsets($question, $subset, $globalSubset)
+    {
+        $question->subsets()->attach($subset->id);
+        $question->subsets()->attach($globalSubset->id);
+    }
+
+    // Crear las respuestas para la pregunta
+    private function createAnswers($item, $question)
+    {
+        foreach ($item['options'] as $option) {
+            // Determinar si la respuesta es correcta
+            $isCorrect = is_array($item['correct_answer'])
+                ? in_array($option, $item['correct_answer']) 
+                : $option === $item['correct_answer'];
+
+            Answer::create([
+                'question_id' => $question->id,
+                'answer_text' => $option,
+                'is_correct' => $isCorrect,
+            ]);
+        }
     }
 }
