@@ -34,8 +34,11 @@ class ExamSeeder extends Seeder
         // Crear un nuevo subset para "Una pregunta de cada categoría"
         $singleCategorySubset = $this->createSingleCategorySubset();
 
+        // Crear el subset "Tipos de Concordancia"
+        $concordanceSubset = $this->createConcordanceSubset();
+
         // Crear preguntas y asociarlas con el subset adecuado
-        $processedCategories = $this->processQuestions($data, $globalSubset, $singleCategorySubset);
+        $processedCategories = $this->processQuestions($data, $globalSubset, $singleCategorySubset, $concordanceSubset);
 
         $this->command->info('Datos cargados exitosamente desde el archivo JSON.');
     }
@@ -58,8 +61,17 @@ class ExamSeeder extends Seeder
         ]);
     }
 
+    // Crear el subset para "Tipos de Concordancia"
+    private function createConcordanceSubset()
+    {
+        return Subset::firstOrCreate([
+            'name' => 'Tipos de Concordancia',
+            'description' => 'Este subset contiene preguntas relacionadas con los tipos de concordancia.',
+        ]);
+    }
+
     // Procesar preguntas desde el JSON y asociarlas con los subsets
-    private function processQuestions($data, $globalSubset, $singleCategorySubset)
+    private function processQuestions($data, $globalSubset, $singleCategorySubset, $concordanceSubset)
     {
         $processedCategories = [];
         
@@ -76,6 +88,11 @@ class ExamSeeder extends Seeder
 
             // Asociar la pregunta con los subsets
             $this->associateQuestionWithSubsets($question, $subset, $globalSubset);
+
+            // Si la pregunta es una de las que deben ir en "Tipos de Concordancia"
+            if (in_array($question->id, [3, 26, 33, 38, 70, 92, 113, 114, 138, 139, 154, 160, 161])) {
+                $question->subsets()->attach($concordanceSubset->id);
+            }
 
             // Crear las respuestas para la pregunta
             $this->createAnswers($item, $question);
