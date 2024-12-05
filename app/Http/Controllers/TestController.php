@@ -72,9 +72,16 @@ class TestController extends Controller
 
     public function showResults(Exam $exam)
     {
-        // Obtener los resultados del examen
+        // Obtener las respuestas del examen
+        $examAnswers = $exam->examAnswers;
+    
+        // Obtener las preguntas del examen
+        $questions = $exam->subset->questions;
+    
+        // Obtener los resultados
         $results = $this->examService->getExamResults($exam);
-
-        return view('test.results', compact('exam', 'results'));
+    
+        return view('test.results', compact('exam', 'questions', 'results', 'examAnswers'));
     }
+    
 }

@@ -1,24 +1,42 @@
 @extends('layouts.app') 
 
 @section('content')
-<div class="container">
-    <div class="card">
-        <div class="card-header">
-            Pregunta {{ $exam->examAnswers->count() + 1 }} de {{ $exam->total_questions }}
+<div class="container mx-auto p-6">
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="bg-gray-200 px-6 py-4 border-b">
+            <h2 class="text-xl font-bold">Pregunta {{ $exam->examAnswers->count() + 1 }} de {{ $exam->total_questions }}</h2>
         </div>
-        <div class="card-body">
-            <h5 class="card-title">{{ $question->question_text }}</h5>
+        <div class="p-6">
+            <h5 class="text-lg font-semibold mb-4">{{ $question->question_text }}</h5>
             <form method="POST" action="{{ route('test.saveAnswer', ['exam' => $exam]) }}">
                 @csrf
-                @foreach ($question->answers as $answer)
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="answer_id" id="answer_{{ $answer->id }}" value="{{ $answer->id }}">
-                        <label class="form-check-label" for="answer_{{ $answer->id }}">
-                            {{ $answer->answer_text }}
-                        </label>
-                    </div>
-                @endforeach
-                <button type="submit" class="btn btn-primary mt-3">Siguiente</button>
+                <div class="space-y-3">
+                    @foreach ($question->answers as $answer)
+                        <div class="flex items-center">
+                            <input 
+                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" 
+                                type="radio" 
+                                name="answer_id" 
+                                id="answer_{{ $answer->id }}" 
+                                value="{{ $answer->id }}">
+                            <label 
+                                class="ml-2 text-gray-700" 
+                                for="answer_{{ $answer->id }}">
+                                {{ $answer->answer_text }}
+                            </label>
+                        </div>
+                    @endforeach
+                </div>
+                <div class="flex space-x-4 mt-6">
+                    <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                        Siguiente
+                    </button>
+                    <a 
+                        href="{{ route('home') }}" 
+                        class="px-6 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400">
+                        Cancelar
+                    </a>
+                </div>
             </form>
         </div>
     </div>

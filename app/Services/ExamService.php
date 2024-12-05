@@ -72,4 +72,10 @@ class ExamService
             'score' => $exam->score,
         ];
     }
+
+    public function getExamQuestionsWithAnswers(Exam $exam)
+    {
+        // Obtener todas las preguntas relacionadas con el examen junto con sus respuestas
+        return $exam->subset->questions()->with('answers')->get();
+    }
 }

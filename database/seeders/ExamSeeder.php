@@ -6,29 +6,14 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Question;
-use App\Models\User;
 use App\Models\Subset;
 use App\Models\Answer;
+use App\Models\Topic;
 
 class ExamSeeder extends Seeder
 {
     public function run()
     {
-        // Crear exámenes para usuarios
-        $user = User::first();  // Asume que hay al menos un usuario
-        $subset = Subset::first();  // Asume que hay al menos un subset
-
-        /*
-
-        Exam::create([
-            'user_id' => $user->id,
-            'subset_id' => $subset->id,
-            'score' => 85.5,
-            'total_questions' => 5,
-            'correct_answers' => 4,
-            'time_taken' => 30,
-        ]);
-        */
         // Ruta al archivo JSON
         $jsonPath = storage_path('app/data/exam_data.json');
 
@@ -45,20 +30,45 @@ class ExamSeeder extends Seeder
             return;
         }
 
+        // Subset global para todas las preguntas
+        $globalSubset = Subset::firstOrCreate([
+            'name' => 'Todas las preguntas',
+            'description' => 'Un subset que contiene todas las preguntas cargadas.',
+        ]);
+
         foreach ($data as $item) {
+            // Crear o asociar el subset (utilizado como topic también)
+            $subset = Subset::firstOrCreate(
+                ['name' => $item['subset']],
+                ['description' => $item['subset'] . ' description']
+            );
+
+            // Crear o asociar el topic basado en el subset
+            $topic = Topic::firstOrCreate(
+                ['name' => $subset->name],
+                ['description' => $subset->description]
+            );
+
             // Crear una nueva pregunta
             $question = Question::create([
                 'question_text' => $item['question'],
                 'question_type' => count($item['options']) > 1 ? 'multiple' : 'single',
-                'explanation' => null, // Actualiza si hay explicaciones en el JSON
+                'explanation' => $item['explanation'] ?? null, // Guardar la explicación si existe
+                'topic_id' => $topic->id, // Asociar el topic a la pregunta
             ]);
+
+            // Asociar la pregunta al subset correspondiente
+            $question->subsets()->attach($subset->id);
+
+            // Asociar la pregunta al subset global
+            $question->subsets()->attach($globalSubset->id);
 
             // Crear las respuestas asociadas
             foreach ($item['options'] as $option) {
                 Answer::create([
                     'question_id' => $question->id,
                     'answer_text' => $option,
-                    'is_correct' => false, // Ajusta según los datos del JSON si hay respuestas correctas
+                    'is_correct' => $option === $item['correct_answer'], // Marcar la respuesta correcta
                 ]);
             }
         }

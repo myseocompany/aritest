@@ -34,7 +34,9 @@
                 <div class="mt-2">
                     <select id="subset" name="subset" class="block w-full p-3 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                         @foreach($subsets as $subset)
-                            <option value="{{ $subset->id }}">{{ $subset->name }}</option>
+                            <option value="{{ $subset->id }}">
+                                {{ $subset->name }} ({{ $subset->questions->count() }} preguntas)
+                            </option>
                         @endforeach
                     </select>
                 </div>
