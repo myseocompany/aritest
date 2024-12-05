@@ -72,11 +72,17 @@ class UserSeeder extends Seeder
             'password' => bcrypt('1144109846'),
         ]);
         
+        User::create([
+            'name' => 'KATHLERIN GISETH JULICUE  TOQUICA',
+            'email' => 'kathlerin.julicue@uao.edu.co',
+            'password' => bcrypt('1062329132'),
+        ]);
+        
         
         User::create([
-            'name' => '',
-            'email' => '',
-            'passwor' => bcrypt(''),
+            'name' => 'VALENTINA GARCIA VILLARRAGA',
+            'email' => 'valentina.garcia_v@uao.edu.co',
+            'password' => bcrypt('1006170177'),
         ]);
         
         // Crear un usuario admin (si es necesario)
