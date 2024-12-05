@@ -20,19 +20,13 @@ class DatabaseSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'soporterapido@myseocompany.co',
             'password' => Hash::make('myseo2025'), // Asegúrate de cambiar 'your_default_password' por una contraseña real segura
-            
+
         ]);
-        $this->call(ExamSeeder::class);
-        
-        /*
+        // $this->call(ExamSeeder::class);
+
         $this->call([
             UserSeeder::class,
-            SubsetSeeder::class,
-            QuestionSeeder::class,
-            AnswerSeeder::class,
             ExamSeeder::class,
-            ExamAnswerSeeder::class,
         ]);
-        */
     }
 }
