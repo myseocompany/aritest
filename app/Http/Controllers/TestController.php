@@ -44,15 +44,14 @@ class TestController extends Controller
     {
         // Obtener la siguiente pregunta
         $question = $this->examService->getNextQuestion($exam);
-    
+
         // Si no hay más preguntas, mostrar los resultados
         if (!$question) {
             return redirect()->route('test.results', ['exam' => $exam]);
         }
-    
+
         return view('test.question', compact('exam', 'question'));
     }
-    
 
     public function saveAnswer(Request $request, Exam $exam)
 {
@@ -60,13 +59,13 @@ class TestController extends Controller
     $question = $this->examService->getNextQuestion($exam);
 
     if (!$question) {
-        // Si no hay más preguntas, redirigir a los resultados
+        // Si no hay más preguntas, redirigir a los resultados o manejar el caso
         return redirect()->route('test.results', ['exam' => $exam]);
     }
 
     // Validar la respuesta del usuario dependiendo del tipo de pregunta
     if ($question->question_type == 'multiple') {
-        // Para preguntas de selección múltiple, validamos que sean respuestas múltiples
+        // Para preguntas múltiples, validamos que sean respuestas múltiples
         $request->validate([
             'answer_ids' => 'required|array',
             'answer_ids.*' => 'exists:answers,id', // Validar que cada id de respuesta sea válido
@@ -84,7 +83,6 @@ class TestController extends Controller
     // Redirigir a la siguiente pregunta
     return redirect()->route('test.question', ['exam' => $exam]);
 }
-
 
 
 

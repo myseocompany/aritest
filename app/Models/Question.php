@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Topic;
 
 class Question extends Model
 {
@@ -13,8 +14,14 @@ class Question extends Model
         'question_text',
         'question_type',
         'explanation',
+        'topic_id'
     ];
 
+    
+    public function topic()
+    {
+        return $this->belongsTo(Topic::class);
+    }
     public $timestamps = true;
 
     public function answers()
