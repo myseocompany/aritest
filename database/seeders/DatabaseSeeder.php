@@ -22,7 +22,8 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('myseo2025'), // Asegúrate de cambiar 'your_default_password' por una contraseña real segura
             
         ]);
-
+        $this->call(ExamSeeder::class);
+        /*
         $this->call([
             UserSeeder::class,
             SubsetSeeder::class,
@@ -31,5 +32,6 @@ class DatabaseSeeder extends Seeder
             ExamSeeder::class,
             ExamAnswerSeeder::class,
         ]);
+        */
     }
 }
