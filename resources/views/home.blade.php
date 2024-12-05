@@ -16,7 +16,7 @@
         <div class="bg-gray-50 p-6 rounded-lg mb-8">
             <h2 class="text-xl font-semibold text-gray-800">Antes de iniciar el test, ten en cuenta lo siguiente:</h2>
             <ul class="mt-4 text-gray-600 list-inside">
-                <li>La evaluación de Publicidad en Búsqueda de Google Ads consta de 50 preguntas que deben completarse en un máximo de 75 minutos.</li>
+                <li>La evaluación de Publicidad en Búsqueda de Google Ads consta de 168 preguntas que deben completarse en un máximo de 75 minutos.</li>
                 <li>Recuerda lo siguiente:</li>
                 <ul class="list-inside list-disc pl-6">
                     <li>Debes obtener una puntuación del 80% o más para aprobar.</li>
