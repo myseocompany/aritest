@@ -8,7 +8,7 @@
 
         <!-- Sección de bienvenida -->
         <div class="text-center mb-8">
-            <h1 class="text-3xl font-semibold text-gray-800">¡Bienvenido a AriTest!</h1>
+            <h1 class="text-3xl font-semibold text-gray-800">¡Bienvenido a AriTest::!</h1>
             <p class="mt-2 text-gray-600 text-lg">Selecciona un subset y empieza a practicar. ¡Mejora tu rendimiento con cada intento!</p>
         </div>
 
