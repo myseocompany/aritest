@@ -67,49 +67,52 @@ class ExamService
     
     
 
-    public function saveAnswer(Exam $exam, Question $question, $answerId)
+    public function saveAnswer(Exam $exam, Question $question, $answerIds)
 {
-    $isFullyCorrect = false;
-
-    if (is_array($answerId)) {
-        // Manejar respuestas múltiples
+    if (is_array($answerIds)) {
+        // Si la pregunta es múltiple
         $correctAnswers = $question->answers()->where('is_correct', true)->pluck('id')->toArray();
-        $isFullyCorrect = count(array_intersect($correctAnswers, $answerId)) === count($correctAnswers);
 
-        foreach ($answerId as $id) {
-            // Verificar si cada respuesta seleccionada es correcta
-            $isCorrect = in_array($id, $correctAnswers);
+        // Verifica si las respuestas seleccionadas coinciden exactamente con las correctas
+        $isCorrect = empty(array_diff($answerIds, $correctAnswers)) && empty(array_diff($correctAnswers, $answerIds));
 
-            // Guardar cada respuesta del usuario
+        // Guardar cada respuesta seleccionada
+        foreach ($answerIds as $id) {
             ExamAnswer::create([
                 'exam_id' => $exam->id,
                 'question_id' => $question->id,
                 'answer_id' => $id,
-                'is_correct' => $isCorrect,
+                'is_correct' => in_array($id, $correctAnswers),
             ]);
         }
-    } else {
-        // Manejar respuesta única
-        $isFullyCorrect = $question->answers()->where('id', $answerId)->where('is_correct', true)->exists();
 
-        // Guardar la respuesta del usuario
+        // Incrementar o no las respuestas correctas según el resultado global de la pregunta
+        if ($isCorrect) {
+            $exam->increment('correct_answers');
+        }
+    } else {
+        // Si es una respuesta única
+        $isCorrect = $question->answers()->where('id', $answerIds)->where('is_correct', true)->exists();
+
         ExamAnswer::create([
             'exam_id' => $exam->id,
             'question_id' => $question->id,
-            'answer_id' => $answerId,
-            'is_correct' => $isFullyCorrect,
+            'answer_id' => $answerIds,
+            'is_correct' => $isCorrect,
         ]);
+
+        if ($isCorrect) {
+            $exam->increment('correct_answers');
+        }
     }
 
-    // Actualizar las respuestas correctas y la puntuación solo si la pregunta es totalmente correcta
-    if ($isFullyCorrect) {
-        $exam->correct_answers++;
-    }
-
-    // Calcular la puntuación como porcentaje de preguntas correctamente respondidas
-    $exam->score = ($exam->correct_answers / $exam->total_questions) * 100;
-    $exam->save();
+    // Actualizar la puntuación y el número de respuestas correctas del examen
+    $totalQuestions = $exam->total_questions;
+    $exam->update([
+        'score' => $exam->correct_answers / $totalQuestions * 100,
+    ]);
 }
+
 
 
 

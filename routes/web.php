@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SubsetController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,20 +35,19 @@ require __DIR__.'/auth.php';
 
 
 // Ruta para la página de inicio con la lista de subsets
-Route::get('/home', [SubsetController::class, 'index'])->name('home')->middleware('auth'); 
-
-// Ruta para iniciar un examen (POST)
-Route::post('/test/start', [TestController::class, 'start'])->name('test.start'); 
 
 // Agrupa las rutas del examen que requieren autenticación
 Route::middleware(['auth'])->group(function () {
     Route::get('/test/{exam}/question', [TestController::class, 'showQuestion'])->name('test.question');
     Route::post('/test/{exam}/answer', [TestController::class, 'saveAnswer'])->name('test.saveAnswer');
     Route::get('/test/{exam}/results', [TestController::class, 'showResults'])->name('test.results');
+   
+    Route::get('/home', [SubsetController::class, 'index'])->name('home')->middleware('auth'); 
+    Route::post('/test/start', [TestController::class, 'start'])->name('test.start'); 
+
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
+    
 });
 
-use App\Http\Controllers\UserController;
 
-Route::get('/users', [UserController::class, 'index'])->name('users.index');
-
-Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
