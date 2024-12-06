@@ -11,8 +11,13 @@ class UserController extends Controller
     public function index()
     {
         // Obtiene los usuarios paginados (10 por página)
-        $users = User::where('email', "like", "%uao.edu.co")
+        $users = User::
+            where('email', "like", "%uao.edu.co")
             ->withCount('exams') // Cuenta la cantidad de exámenes
+            ->withAvg('exams', 'score') // Calcula el promedio de la columna 'score' en los exámenes
+            ->paginate(20);
+
+            $users = User::withCount('exams') // Cuenta la cantidad de exámenes
             ->withAvg('exams', 'score') // Calcula el promedio de la columna 'score' en los exámenes
             ->paginate(20);
           

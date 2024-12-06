@@ -1,15 +1,14 @@
-@extends('layouts.app') 
+@extends('layouts.app')
 
 @section('content')
 <div class="container mx-auto p-6">
     <div class="bg-white shadow-md rounded-lg overflow-hidden">
         <div class="bg-gray-200 px-6 py-4 border-b">
-            <h2 class="text-xl font-bold">Pregunta {{ $exam->examAnswers->count() + 1 }} de {{ $exam->total_questions }}</h2>
+            <h2 class="text-xl font-bold">Pregunta {{ $currentQuestionIndex + 1 }} de {{ $exam->total_questions }}</h2>
         </div>
         <div class="p-6">
             <h5 class="text-lg font-semibold mb-4">{{ $question->question_text }}</h5>
 
-            <!-- Mostrar tipo de pregunta -->
             <div class="text-sm text-gray-500 mb-4">
                 Tipo de pregunta: 
                 <strong>
@@ -27,7 +26,6 @@
                     @foreach ($question->answers as $answer)
                         <div class="flex items-center">
                             @if($question->question_type == 'multiple')
-                                <!-- Para preguntas de selección múltiple se usan checkboxes -->
                                 <input 
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" 
                                     type="checkbox" 
@@ -35,7 +33,6 @@
                                     id="answer_{{ $answer->id }}" 
                                     value="{{ $answer->id }}">
                             @else
-                                <!-- Para preguntas de selección única se usan radio buttons -->
                                 <input 
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" 
                                     type="radio" 
@@ -43,9 +40,7 @@
                                     id="answer_{{ $answer->id }}" 
                                     value="{{ $answer->id }}">
                             @endif
-                            <label 
-                                class="ml-2 text-gray-700" 
-                                for="answer_{{ $answer->id }}">
+                            <label class="ml-2 text-gray-700" for="answer_{{ $answer->id }}">
                                 {{ $answer->answer_text }}
                             </label>
                         </div>
@@ -55,9 +50,7 @@
                     <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
                         Siguiente
                     </button>
-                    <a 
-                        href="{{ route('home') }}" 
-                        class="px-6 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400">
+                    <a href="{{ route('home') }}" class="px-6 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400">
                         Cancelar
                     </a>
                 </div>
