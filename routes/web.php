@@ -45,3 +45,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/test/{exam}/answer', [TestController::class, 'saveAnswer'])->name('test.saveAnswer');
     Route::get('/test/{exam}/results', [TestController::class, 'showResults'])->name('test.results');
 });
+
+use App\Http\Controllers\UserController;
+
+Route::get('/users', [UserController::class, 'index'])->name('users.index');
+
+Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
