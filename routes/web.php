@@ -48,7 +48,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
-    
+    Route::get('/user/{user}', [UserController::class, 'show'])->name('user.show');
+
 });
 
 

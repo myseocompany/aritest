@@ -46,10 +46,10 @@
             "Planificador de estrategia de desempeño",
             "Análisis de subastas",
             "Informe de palabras clave de puja",
-            "Informe de estrategia de licitación"
+            "Informe de estrategia de oferta"
         ],
-        "correct_answer": "Informe de estrategia de licitación",
-        "explanation": "La respuesta correcta, Informe de estrategia de licitación, es el lugar adecuado para acceder a información sobre el estado de la puja, las tendencias de rendimiento a lo largo del tiempo y los informes de retraso de conversión. En Google Ads, los informes de estrategia de puja proporcionan información completa sobre la eficacia y la eficiencia de las estrategias de puja implementadas en las campañas. Estos informes ofrecen análisis detallados del rendimiento de la puja, incluidas métricas como el estado de la puja, que indica el estado actual de la puja por palabras clave o grupos de anuncios, lo que permite a los anunciantes supervisar y ajustar las pujas según sea necesario para optimizar el rendimiento de la campaña. Además, los informes de estrategia de puja presentan tendencias de rendimiento a lo largo del tiempo, lo que permite a los anunciantes realizar un seguimiento de los cambios en métricas clave como clics, impresiones, conversiones y costos en varios intervalos de tiempo, lo que facilita la toma de decisiones informadas y el refinamiento de la estrategia. Además, los informes de retraso de conversión dentro de los informes de estrategia de puja ofrecen información valiosa sobre el retraso temporal entre las interacciones con los anuncios y las conversiones resultantes, lo que ayuda a los anunciantes a comprender mejor el proceso de conversión y ajustar sus estrategias de puja en consecuencia. Al brindar acceso a estas métricas y estadísticas de rendimiento fundamentales, el informe de estrategia de puja es una herramienta fundamental para los anunciantes que buscan evaluar y mejorar la eficacia de sus estrategias de puja, lo que, en última instancia, genera un mejor rendimiento de la campaña y un mejor retorno de la inversión. Por lo tanto, al seleccionar el informe de estrategia de puja, los anunciantes pueden acceder a los datos y las estadísticas necesarios para optimizar las estrategias de puja de manera eficaz y lograr sus objetivos publicitarios en Google Ads.",
+        "correct_answer": "Informe de estrategia de oferta",
+        "explanation": "La respuesta correcta, Informe de estrategia de oferta, es el lugar adecuado para acceder a información sobre el estado de la puja, las tendencias de rendimiento a lo largo del tiempo y los informes de retraso de conversión. En Google Ads, los informes de estrategia de puja proporcionan información completa sobre la eficacia y la eficiencia de las estrategias de puja implementadas en las campañas. Estos informes ofrecen análisis detallados del rendimiento de la puja, incluidas métricas como el estado de la puja, que indica el estado actual de la puja por palabras clave o grupos de anuncios, lo que permite a los anunciantes supervisar y ajustar las pujas según sea necesario para optimizar el rendimiento de la campaña. Además, los informes de estrategia de puja presentan tendencias de rendimiento a lo largo del tiempo, lo que permite a los anunciantes realizar un seguimiento de los cambios en métricas clave como clics, impresiones, conversiones y costos en varios intervalos de tiempo, lo que facilita la toma de decisiones informadas y el refinamiento de la estrategia. Además, los informes de retraso de conversión dentro de los informes de estrategia de puja ofrecen información valiosa sobre el retraso temporal entre las interacciones con los anuncios y las conversiones resultantes, lo que ayuda a los anunciantes a comprender mejor el proceso de conversión y ajustar sus estrategias de puja en consecuencia. Al brindar acceso a estas métricas y estadísticas de rendimiento fundamentales, el informe de estrategia de puja es una herramienta fundamental para los anunciantes que buscan evaluar y mejorar la eficacia de sus estrategias de puja, lo que, en última instancia, genera un mejor rendimiento de la campaña y un mejor retorno de la inversión. Por lo tanto, al seleccionar el informe de estrategia de puja, los anunciantes pueden acceder a los datos y las estadísticas necesarios para optimizar las estrategias de puja de manera eficaz y lograr sus objetivos publicitarios en Google Ads.",
         "subset": "Estrategias de puja y rendimiento"
     },
     {
@@ -1278,15 +1278,15 @@
     {
         "question": "Trevor es propietario de una empresa de fabricación de equipos especializados para senderismo y escalada en roca. Es un actor pequeño en el mercado, pero está listo para ampliar su negocio. ¿Qué dos tipos de campañas de Google Ads debería utilizar Trevor para aumentar la exposición de su marca y llegar a audiencias interesadas en el senderismo y la escalada en roca en la web?",
         "options": [
-            "Buscar",
-            "Mostrar",
-            "Descubrimiento",
+            "Search",
+            "Display",
+            "Discovery",
             "Video",
-            "Compras"
+            "Shopping"
         ],
         "correct_answer": [
-            "Mostrar",
-            "Descubrimiento"
+            "Display",
+            "Discovery"
         ],
         "explanation": "Para aumentar la exposición de su marca y llegar a audiencias interesadas en el senderismo y la escalada en roca en la web, Trevor debería utilizar los tipos de campaña de Display y Discovery de Google Ads. El tipo de campaña de Display permite a los anunciantes mostrar anuncios visuales en una amplia red de sitios web, blogs y aplicaciones, llegando a clientes potenciales que pueden estar interesados ​​en actividades al aire libre como el senderismo y la escalada en roca. Con banners visualmente atractivos, imágenes y anuncios interactivos, Trevor puede captar eficazmente la atención de su público objetivo y generar conciencia de marca. Además, el tipo de campaña Discovery está diseñado para llegar a los usuarios en varias plataformas de Google, incluidos YouTube, Gmail y Google Discover. Al aprovechar las campañas Discovery, Trevor puede expandir aún más el alcance y la visibilidad de su marca, aprovechando la amplia base de usuarios de Google y dirigiéndose a las personas en función de sus intereses, preferencias y comportamiento en línea relacionados con el senderismo y la escalada en roca. Estos tipos de campaña ofrecen a Trevor la oportunidad de conectarse con clientes potenciales en diferentes etapas de su recorrido en línea, lo que en última instancia impulsa la exposición de la marca, la participación y el crecimiento empresarial. Por lo tanto, las opciones seleccionadas se alinean con el objetivo de Trevor de ampliar su negocio al llegar de manera efectiva a las audiencias interesadas en el senderismo y la escalada en roca en la web, enfatizando la importancia de aprovechar las campañas de Display y Discovery para maximizar la visibilidad de la marca y expandir la presencia en el mercado.",
         "subset": "Segmentación y audiencias"
@@ -1880,14 +1880,15 @@
         "subset": "Segmentación y audiencias"
     },
     {
-        "question": "¿Qué búsquedas puede mostrar un anuncio para la palabra clave de concordancia amplia \"reparación de calderas domésticas\"?",
+        "question": "¿Qué búsquedas puede mostrar un anuncio para la palabra clave de concordancia amplia \"reparación de calderas en casa\"?",
         "options": [
-            "Reemplazo del horno de la casa",
-            "Reemplazar el horno de la casa",
+            "reemplazo de caldera de casa",
+            "reemplazar caldera en casa",
             "casas en venta",
             "casas nuevas en venta"
         ],
-        "correct_answer": "Reemplazo del horno de la casa",
+        "correct_answer": ["reemplazo de caldera de casa", 
+                            "reemplazar caldera en casa"],
         "explanation": "La respuesta correcta es: reemplazo de caldera doméstica y reemplazo de caldera doméstica. Las palabras clave de concordancia amplia, como reparación de calderas domésticas, permiten que aparezcan anuncios para consultas de búsqueda relacionadas o con una intención similar a la palabra clave especificada. En este caso, reemplazo de caldera doméstica y reemplazo de caldera doméstica se alinean estrechamente con el tema de reparar o reemplazar una caldera doméstica, lo que los convierte en coincidencias relevantes para la palabra clave de concordancia amplia reparación de caldera doméstica. Estas consultas indican un interés explícito o una necesidad de servicios relacionados con la reparación o el reemplazo de una caldera doméstica, cumpliendo así los criterios para activar el anuncio. Por el contrario, casas en venta y casas nuevas en venta no están relacionadas con la reparación o el reemplazo de calderas y, por lo tanto, el anuncio normalmente no aparecería para estas consultas de búsqueda cuando se utiliza la palabra clave de concordancia amplia reparación de calderas para el hogar. Esto demuestra la importancia de seleccionar palabras clave relevantes y comprender cómo funcionan los diferentes tipos de concordancia para garantizar que los anuncios se muestren a usuarios con interés genuino en los productos o servicios anunciados.",
         "subset": "Segmentación y audiencias"
     },
@@ -2242,14 +2243,14 @@
     {
         "question": "Su cliente es propietario de una empresa de fabricación de equipos especializados para senderismo y escalada en roca. Es un actor pequeño en el mercado, pero está listo para ampliar el negocio. ¿Qué dos tipos de campañas de Google Ads podría utilizar su cliente para aumentar la exposición de la marca y llegar a audiencias interesadas en el senderismo y la escalada en roca en la Web?",
         "options": [
-            "Descubrimiento",
+            "Discovery",
             "Video",
-            "Buscar",
-            "Rendimiento máximo"
+            "Search",
+            "Performance Max"
         ],
         "correct_answer": [
-            "Descubrimiento",
-            "Rendimiento máximo"
+            "Discovery",
+            "Performance Max"
         ],
         "explanation": "Las opciones de respuesta seleccionadas son correctas porque las campañas Discovery permiten a su cliente mostrar su equipo especializado para senderismo y escalada en roca a los usuarios que exploran activamente contenido relacionado con actividades al aire libre en los feeds de Discovery de Google, lo que mejora la exposición de la marca. Además, las campañas Performance Max utilizan el aprendizaje automático de Google para optimizar la publicación de anuncios en múltiples canales y llegar a clientes potenciales en la Web en función de sus intereses y comportamientos. Juntos, estos tipos de campañas pueden aumentar eficazmente la visibilidad de la marca y conectar con audiencias interesadas en el senderismo y la escalada en roca, lo que ayuda al cliente a ampliar su negocio.",
         "subset": "Segmentación y audiencias"

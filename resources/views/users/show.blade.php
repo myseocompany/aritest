@@ -19,7 +19,9 @@
             <thead class="bg-gray-200">
                 <tr>
                     <th class="px-4 py-2">ID del Examen</th>
+                    <th class="px-4 py-2">Nombre del Subset</th>
                     <th class="px-4 py-2">Nota</th>
+                    <th class="px-4 py-2">Número de Preguntas</th>
                     <th class="px-4 py-2">Fecha del Examen</th>
                 </tr>
             </thead>
@@ -27,12 +29,14 @@
                 @forelse($user->exams as $exam)
                     <tr class="border-b">
                         <td class="px-4 py-2 text-center">{{ $exam->id }}</td>
+                        <td class="px-4 py-2 text-center">{{ $exam->subset->name }}</td>
                         <td class="px-4 py-2 text-center">{{ number_format($exam->score, 2) }}</td>
+                        <td class="px-4 py-2 text-center">{{ $exam->total_questions }}</td>
                         <td class="px-4 py-2 text-center">{{ $exam->created_at->format('d/m/Y') }}</td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="3" class="text-center px-4 py-2">No se encontraron exámenes.</td>
+                        <td colspan="5" class="text-center px-4 py-2">No se encontraron exámenes.</td>
                     </tr>
                 @endforelse
             </tbody>
