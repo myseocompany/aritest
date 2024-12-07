@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SubsetController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DatabaseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,3 +52,5 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
+
+Route::get('/backup-database', [DatabaseController::class, 'backup'])->name('backup.database');
