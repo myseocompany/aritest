@@ -95,6 +95,7 @@ public function saveAnswer(Request $request, Exam $exam)
 
 
 
+
 public function showResults(Exam $exam)
 {
     $examAnswers = $exam->examAnswers;
