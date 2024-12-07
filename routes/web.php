@@ -50,6 +50,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
     Route::get('/user/{user}', [UserController::class, 'show'])->name('user.show');
 
+
+    Route::get('/subsets', [SubsetController::class, 'list'])->name('subsets.index'); // Nueva ruta para listar subsets
+    Route::get('/subsets/{subset}', [SubsetController::class, 'show'])->name('subsets.show'); // Ruta para el detalle    
+
 });
 
 
